@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -15,7 +16,7 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Employee {
+public class Employee implements Serializable {
 
     @Id
     @SequenceGenerator(
@@ -32,9 +33,12 @@ public class Employee {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "dept_id")
-    private Department department;
+//    @ManyToOne
+//    @JoinColumn(name = "dept_id")
+//    private Department department;
+
+    @Column(name = "dept_id")
+    private Integer departmentId;
 
     @Column(name = "salary")
     private String salary;

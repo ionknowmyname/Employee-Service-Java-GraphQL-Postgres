@@ -51,14 +51,16 @@ public class EmployeeController {
     @MutationMapping  // if method name is same as graph query method name, no need to include it as value
     public Employee createNewEmployee(@Argument EmployeeRequest request) {
 
-        Department foundDept = departmentRepository.findById(request.getDepartmentId())
+        /*
+            Department foundDept = departmentRepository.findById(request.getDepartmentId())
                 .orElseThrow(() -> new RuntimeException("Department with id not found"));
+        */
 
         Employee buildedEmployee = Employee.builder()
             .name(request.getName())
             .salary(request.getSalary())
             .age(request.getAge())
-            .department(foundDept)
+            .departmentId(request.getDepartmentId())
             .createdAt(OffsetDateTime.now())
             .updatedAt(OffsetDateTime.now())
             .build();

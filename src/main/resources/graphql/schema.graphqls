@@ -9,6 +9,7 @@ type Employee {
     name: String!
     age: PositiveInt!
     salary: String
+    departmentId: ID!
     createdAt: DateTime
     updatedAt: DateTime
 
@@ -24,8 +25,9 @@ type Department {
 }
 
 type Query {
-    getAllEmployeesByName(name: String): [Employee]
-    getAllDepartments: [Department]
+    getAllEmployeesByName(name: String!): [Employee]
+    getAllEmployeesByDept(deptId: ID!): [Employee]
+    getAllDepartments: [Department]!
 }
 
 type Mutation {

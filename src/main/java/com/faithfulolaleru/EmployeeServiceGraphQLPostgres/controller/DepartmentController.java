@@ -29,11 +29,12 @@ public class DepartmentController {
 
         if(foundDept.isPresent()) { throw new RuntimeException("Department with name already exists"); }
 
-        return departmentRepository.save(Department.builder()
-            .name(name)
-            .createdAt(OffsetDateTime.now())
-            .updatedAt(OffsetDateTime.now())
-            .build());
+        Department newDept = new Department();
+        newDept.setName(name);
+        newDept.setCreatedAt(OffsetDateTime.now());
+        newDept.setUpdatedAt(OffsetDateTime.now());
+
+        return departmentRepository.save(newDept);
     }
 
     @QueryMapping

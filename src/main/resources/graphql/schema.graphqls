@@ -1,0 +1,66 @@
+# for global variables
+
+scalar DateTime
+scalar PositiveInt
+
+
+type Employee {
+    id: ID!
+    name: String!
+    age: PositiveInt!
+    salary: String
+    createdAt: DateTime
+    updatedAt: DateTime
+
+}
+
+type Department {
+    id: ID!
+    name: String!
+    employees: [Employee]
+    createdAt: DateTime
+    updatedAt: DateTime
+
+}
+
+type Query {
+    getAllEmployeesByName(name: String): [Employee]
+    getAllDepartments: [Department]
+}
+
+type Mutation {
+    createNewDepartment(name: String!): Department
+    createNewEmployee(request: EmployeeRequest): Employee
+    updateEmployeeSalary(request: SalaryRequest): Employee
+}
+
+type Subscription {
+    allEmployee: Employee  # not [Employee]
+}
+
+input EmployeeRequest {
+    name: String!
+    age: Int!
+    salary: String
+    departmentId: ID!
+}
+
+input SalaryRequest {
+    employeeId: ID!
+    salary: String!
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

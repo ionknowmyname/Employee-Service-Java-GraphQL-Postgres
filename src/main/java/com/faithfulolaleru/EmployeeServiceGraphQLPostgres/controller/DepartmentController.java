@@ -42,4 +42,11 @@ public class DepartmentController {
 
         return departmentRepository.findAll();
     }
+
+    @QueryMapping
+    public Department getDepartmentById(Integer id) {
+
+        return departmentRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Department with id not found"));
+    }
 }

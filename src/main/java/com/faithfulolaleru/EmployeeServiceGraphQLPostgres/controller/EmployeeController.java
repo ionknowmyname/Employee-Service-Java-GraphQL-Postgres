@@ -87,4 +87,10 @@ public class EmployeeController {
 
         return employeeRepository.findAllByName(name);
     }
+
+    @QueryMapping
+    public List<Employee> getAllEmployeesByDeptId(@Argument Integer deptId) {
+
+        return employeeRepository.findAllByDepartmentId(deptId);
+    }
 }

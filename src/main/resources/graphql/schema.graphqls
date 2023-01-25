@@ -26,8 +26,9 @@ type Department {
 
 type Query {
     getAllEmployeesByName(name: String!): [Employee]
-    getAllEmployeesByDept(deptId: ID!): [Employee]
+    getAllEmployeesByDeptId(deptId: ID!): [Employee]
     getAllDepartments: [Department]!
+    getDepartmentById(deptId: Int!): Department
 }
 
 type Mutation {

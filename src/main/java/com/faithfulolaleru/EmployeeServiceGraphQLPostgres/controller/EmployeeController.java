@@ -5,6 +5,7 @@ import com.faithfulolaleru.EmployeeServiceGraphQLPostgres.entity.Department;
 import com.faithfulolaleru.EmployeeServiceGraphQLPostgres.entity.Employee;
 import com.faithfulolaleru.EmployeeServiceGraphQLPostgres.repository.DepartmentRepository;
 import com.faithfulolaleru.EmployeeServiceGraphQLPostgres.repository.EmployeeRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -49,12 +50,13 @@ public class EmployeeController {
 
     // @SchemaMapping(typeName = "Mutation", value = "createNewEmployee")
     @MutationMapping  // if method name is same as graph query method name, no need to include it as value
+    @Transactional
     public Employee createNewEmployee(@Argument EmployeeRequest request) {
 
-        /*
-            Department foundDept = departmentRepository.findById(request.getDepartmentId())
-                .orElseThrow(() -> new RuntimeException("Department with id not found"));
-        */
+        // make sure department exist for the dept id from request
+        Department foundDept = departmentRepository.findById(request.getDepartmentId())
+            .orElseThrow(() -> new RuntimeException("Department with id not found"));
+
 
         Employee buildedEmployee = Employee.builder()
             .name(request.getName())
@@ -65,9 +67,19 @@ public class EmployeeController {
             .updatedAt(OffsetDateTime.now())
             .build();
 
+        Employee savedEmployee = employeeRepository.save(buildedEmployee);
+
+        // add employee to that department employees list
+        List<Employee> employeeList = foundDept.getEmployees();
+        employeeList.add(savedEmployee);
+        foundDept.setEmployees(employeeList);
+
+        departmentRepository.save(foundDept);
+
+
         // return employeeRepository.save(mapping.apply(request));
 
-        return employeeRepository.save(buildedEmployee);
+         return savedEmployee;
     }
 
     @QueryMapping
